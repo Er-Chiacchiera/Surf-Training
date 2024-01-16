@@ -28,7 +28,7 @@ public class InstructorController {
 	@GetMapping("/all")
 	public String getInstructors(Model model) {
 		model.addAttribute("instructors", this.instructorRepository.findAll());
-		return  INSTRUCTOR_DIR + "allInstructor";
+		return  INSTRUCTOR_DIR + "instructorList";
 	}
 	
 	/*Form per aggiungere un nuovo Istruttore*/
@@ -44,8 +44,8 @@ public class InstructorController {
 	this.instructorValidator.validate(instructor, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			this.instructorRepository.save(instructor); 
-			model.addAttribute("artist", instructor);
-			return "index.html";
+			model.addAttribute("instructor", instructor);
+			return INSTRUCTOR_DIR + "instructorProfile";
 		} 
 		else {
 			return INSTRUCTOR_DIR + "formNewInstructor";
