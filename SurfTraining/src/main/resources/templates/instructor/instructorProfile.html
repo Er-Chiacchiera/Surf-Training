@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head(title=Homepage)}">Hompage</head>
+
+<body>
+	<nav th:replace="~{fragments/base :: navbar}"></nav>
+	
+	
+	<div class="container">
+		<div class="row">
+			<!--Card dell'instruttore-->
+			<div class="col-4">
+				<div class="card" style="width: 18rem;">
+					<img src="..." class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Nome e Cognome</h5>
+						<h6 class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</h6>
+						<p class="card-text" th:text="${instructor.descrizione}">Descrizione</p>
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item" th:text="'Nato il: ' + ${instructor.dateOfBirth}">Data di nascita</li>
+						<li class="list-group-item" th:text="'Email: ' + ${instructor.email}">Email</li>
+						<div th:if="${! instructor.instagramUrl.isEmpty()}">
+							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}" class="card-link">profilo Instagram</a></li>
+						</div>
+					</ul>
+				</div>
+			</div>
+			<!--Lista dei corsi-->
+			<div class="col-6">.col-6<br>Subsequent columns continue along the new line.
+			</div>
+		</div>
+	</div>
+
+
+ 
+	<footer th:replace="~{fragments/base :: footer}"><footer>
+
+</body>
+</html>

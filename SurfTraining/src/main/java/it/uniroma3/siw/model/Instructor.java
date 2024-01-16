@@ -54,6 +54,8 @@ public class Instructor {
 	
 	private String instagramUrl;
 	
+	private String descrizione;
+	
 	@OneToMany(mappedBy = "instructor")
 	private List<Cours> corso;
 	
@@ -64,7 +66,7 @@ public class Instructor {
 	
 /***************** Get e Set metod *****************/
 	public Long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(Long id) {
@@ -126,7 +128,14 @@ public class Instructor {
 	public void setSpeciality(String speciality) {
 		this.speciality = speciality;
 	}
-	
+
+	public String getDescrizione() {
+		return descrizione;
+	}
+
+	public void setDescrizione(String descrizione) {
+		this.descrizione = descrizione;
+	}
 /***************** hashCode e equals metod *****************/
 	@Override
 	public int hashCode() {
@@ -145,4 +154,5 @@ public class Instructor {
 		return Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(name, other.name)
 				&& Objects.equals(surname, other.surname);
 	}
+
 }

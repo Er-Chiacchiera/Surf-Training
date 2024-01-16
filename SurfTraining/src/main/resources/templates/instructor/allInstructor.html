@@ -7,16 +7,19 @@
 	
 	<div th:if="${instructors.isEmpty()}">Non ci sono istruttori nel sistema</div>
 	
+	
 	<div class="container text-center">
 		<div class="row ">
 			<div class="col mb-4" th:each="instructor : ${instructors}">
-				<div class="card" style="width: 18rem;">
-					<img src="..." class="card-img-top" alt="...">
-					<div class="card-body">
-						<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Card title</h5>
-						<p class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</p>
+				<a th:href="@{'/instructor' + '/' + ${instructor.id}}">
+					<div class="card" style="width: 18rem;">
+						<img src="..." class="card-img-top" alt="...">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Card title</h5>
+							<p class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</p>
+						</div>
 					</div>
-				</div>
+				</a>
 			</div>
 		</div>
 	</div>

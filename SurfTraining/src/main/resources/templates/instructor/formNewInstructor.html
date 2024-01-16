@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/base :: head(title=Homepage)}">Hompage</head>
+<head th:replace="~{fragments/base :: head(title=Add+' '+Instructor)}">Hompage</head>
 
 <body>
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
@@ -47,9 +47,13 @@
 		</div>
 		
 		<div class="col-12">
-			<label for="inputEmail" class="form-label"> ProfiloInstagram</label>
+			<label for="inputEmail" class="form-label"> Profilo Instagram</label>
 			<input class="form-control" type="text" th:field="${instructor.instagramUrl}" id="instagramUrl"/>
 			<span th:if="${#fields.hasErrors('instagramUrl')}" th:errors="*{instagramUrl}"></span>
+		</div>
+		<div class="col-12">
+			<label for="inputDescrizione" class="form-label"> Descizione</label>
+			<textarea class="form-control" aria-label="With textarea" type="text" th:field="${instructor.descrizione}" id="descrizione"></textarea>
 		</div>
 		
 		<div class="col-12">
