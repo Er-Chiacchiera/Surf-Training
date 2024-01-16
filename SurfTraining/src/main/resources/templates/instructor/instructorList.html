@@ -5,9 +5,34 @@
 <body>
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
 	
+	<!--Dropdown per il filtraggio della ricerca-->
+	<div class="dropdown mb-4">
+		<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Filtra per tipo </button>
+		<div class="dropdown-menu">
+			<div class="container-fluid">
+		    <form th:action="@{/instructor/search}" method="POST" class="mb-3">
+		        <div class="row">
+		            <div class="col-md-4">
+		                <select class="form-select" type"text" th:value="${type}" name="type">
+		                    <option value="name">Nome</option>
+		                    <option value="surname">Cognome</option>
+		                    <option value="speciality">Specialità</option>
+		                </select>
+		            </div>
+		            <div class="col-md-4">
+		                <input class="form-control" placeholder="Es. Marco, Rossi, Surf" required type="text" th:value="${attribute}" name="attribute"/>
+		            </div>
+		            <div class="col-md-4">
+		                <button type="submit" class="btn btn-primary">Cerca</button>
+		            </div>
+		        </div>
+		    </form>
+		</div>
+		</div>
+	</div>
+	
 	<div th:if="${instructors.isEmpty()}">Non ci sono istruttori nel sistema</div>
-	
-	
+	<!--Inizio delle card-->	
 	<div class="container text-center">
 		<div class="row ">
 			<div class="col mb-4" th:each="instructor : ${instructors}">

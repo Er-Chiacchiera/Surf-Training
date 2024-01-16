@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.controller.validator.InstructorValidator;
 import it.uniroma3.siw.model.Instructor;
 import it.uniroma3.siw.repository.InstructorRepository;
+import it.uniroma3.siw.service.InstructorService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -22,6 +24,8 @@ import jakarta.validation.Valid;
 public class InstructorController {
 	@Autowired InstructorRepository instructorRepository;
 	@Autowired InstructorValidator instructorValidator;
+	@Autowired InstructorService instructorService;
+	
 	public static final String INSTRUCTOR_DIR = "instructor/";
 
 	/*Mostra la lista di tutti gli istruttori*/
@@ -74,4 +78,18 @@ public class InstructorController {
 		model.addAttribute("instructor", instructor);
 		return INSTRUCTOR_DIR + "instructorProfile";
     }
+    
+    @PostMapping("/search")
+    public String searchInstructors(@RequestParam(name = "type") String type,@RequestParam(name = "attribute", defaultValue = "") String attribute,
+            Model model) {
+    	System.out.println(type);
+    	System.out.println(attribute);
+		if(type.equals("name"))
+			model.addAttribute("instructors", this.instructorRepository.findByName(attribute));
+			else if(type.equals("surname"))
+				model.addAttribute("instructors", this.instructorRepository.findBySurname(attribute));
+				else
+					model.addAttribute("instructors", this.instructorRepository.findBySpeciality(attribute));
+		return INSTRUCTOR_DIR + "instructorList";
+	}
 }
