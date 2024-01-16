@@ -23,6 +23,7 @@
 						<div th:if="${! instructor.instagramUrl.isEmpty()}">
 							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}" class="card-link">profilo Instagram</a></li>
 						</div>
+						<li class="list-group-item"><a th:href="@{'/instructor/edit' + '/' + ${instructor.id}}" class="card-link">Edit</a></li>
 					</ul>
 				</div>
 			</div>

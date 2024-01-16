@@ -35,7 +35,7 @@ public class InstructorController {
 	@GetMapping("/add/new")
 	public String formNewInstrucotr(Model model) {
 		model.addAttribute("instructor", new Instructor());
-		return INSTRUCTOR_DIR + "formNewInstructor";
+		return INSTRUCTOR_DIR + "instructorAdd";
 	}
 	
 	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
@@ -48,7 +48,7 @@ public class InstructorController {
 			return INSTRUCTOR_DIR + "instructorProfile";
 		} 
 		else {
-			return INSTRUCTOR_DIR + "formNewInstructor";
+			return INSTRUCTOR_DIR + "instructorAdd";
 		}
 	}
 	
@@ -57,4 +57,21 @@ public class InstructorController {
 		model.addAttribute("instructor", this.instructorRepository.findById(id).get());
 		return INSTRUCTOR_DIR + "instructorProfile";
 	}
+	
+	@GetMapping("/edit/{id}")
+	public String formEditInstructor(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("instructor", this.instructorRepository.findById(id).get());
+		return INSTRUCTOR_DIR + "instructorEdit";
+	}
+	
+    @PostMapping("/update/{id}")
+    public String updateInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            // Gestisci gli errori di validazione, se necessario
+        	return INSTRUCTOR_DIR + "instructorEdit";
+        }
+        this.instructorRepository.save(instructor); 
+		model.addAttribute("instructor", instructor);
+		return INSTRUCTOR_DIR + "instructorProfile";
+    }
 }
