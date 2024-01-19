@@ -23,7 +23,11 @@
 						<div th:if="${! instructor.instagramUrl.isEmpty()}">
 							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}" class="card-link">profilo Instagram</a></li>
 						</div>
-						<li class="list-group-item"><a th:href="@{'/instructor/edit' + '/' + ${instructor.id}}" class="card-link">Edit</a></li>
+						<!--solo per admin-->
+						<div sec:authorize="hasAuthority('ADMIN')">
+  							<li class="list-group-item"><a th:href="@{'/instructor/edit/' + ${instructor.id}}" class="card-link">Edit</a></li>
+  							<li class="list-group-item"><a th:href="@{'/instructor/delete/' + ${instructor.id}}" class="card-link">Delete</a></li>
+						</div>
 					</ul>
 				</div>
 			</div>

@@ -36,6 +36,10 @@ public class InstructorService {
 		else
 			return this.instructorRepository.findBySpeciality(attribute);
 	}
+
+	public void deleteById(Long id) {
+		this.instructorRepository.deleteById(id);
+	}
 }
 
 

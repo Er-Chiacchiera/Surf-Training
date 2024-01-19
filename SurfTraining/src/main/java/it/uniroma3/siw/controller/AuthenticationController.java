@@ -53,7 +53,7 @@ public class AuthenticationController {
 				return "index";
 			}
 		}
-        return "index.html";
+        return "index";
 	}
 		
     @GetMapping(value = "/success")

@@ -82,4 +82,12 @@ public class InstructorController {
     	model.addAttribute("instructors",this.instructorService.GetAllInstructorByTypeAndAttribute(type,attribute));
 		return INSTRUCTOR_DIR + "instructorList";
 	}
+    
+    @GetMapping("/delete/{id}")
+	public String deleteInstructor(@PathVariable("id") Long id, Model model) {
+		this.instructorService.deleteById(id);
+		return "redirect:/instructor/all";
+	}
+    
+    
 }

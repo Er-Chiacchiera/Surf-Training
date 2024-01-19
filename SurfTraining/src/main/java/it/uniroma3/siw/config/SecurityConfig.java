@@ -44,14 +44,16 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.GET,"/","login","/index","/register","/css/**", "/images/**", "/loghi/**","/carousel/*").permitAll()
 				// chiunque (autenticato o no) può mandare richieste POST al punto di accesso per login e register
 				.requestMatchers(HttpMethod.POST,"/register", "/login").permitAll()
-				.requestMatchers(HttpMethod.GET,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
-				.requestMatchers(HttpMethod.POST,"/admin/**").hasAnyAuthority(ADMIN_ROLE)
+				.requestMatchers(HttpMethod.GET, "/*/add/*","/*/edit/*","/*/delete/*","*/update/*").hasAnyAuthority(ADMIN_ROLE)
+				.requestMatchers(HttpMethod.POST, "/*/add/*","/*/edit/*","/*/delete/*","*/update/*").hasAnyAuthority(ADMIN_ROLE)
+				//solo gli utenti autenticati con ruolo admin possono accedere a risorse con path /admin/**
+				
 				// tutti gli utenti autenticati possono accere alle pagine rimanenti
 				.anyRequest().authenticated())
 		.formLogin(form -> form
 				.loginPage("/login")
 				.defaultSuccessUrl("/", true)
-				.failureUrl("/index")
+				.failureUrl("/login")
 				.permitAll())
 		.logout(logout ->logout
 				// il logout è attivato con una richiesta GET a "/logout"
