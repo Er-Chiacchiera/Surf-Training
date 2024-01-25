@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/base :: head(title=corso)}">Hompage</head>
+
+<body>
+	<nav th:replace="~{fragments/base :: navbar}"></nav>
+	
+	<div class="container text-center">
+		<div class="row">
+			<div class="col">
+				<h2 th:text="${course.title}">
+				<h3 th:text="${course.description}">
+			</div>
+			<div class="col" sec:authorize="hasAuthority('ADMIN')">
+				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/edit/' + ${course.id}}"> Edit Course</a>
+				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/delete/' + ${course.id}}"> Delete Couse</a>
+				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/lesson/add/new'}"> Add lesson</a>
+			</div>	
+		</div>
+		
+		<!--card delle lezioni-->
+		<div class="row">
+			<div class="row" th:if="${course.lessons.isEmpty()}">
+					Non ci sono lezioni nel corso
+			</div>
+			<div class="card" style="width: 18rem;">
+				<ul class="list-group list-group-flush" th:each="lesson : ${lessons}">
+					<li class="list-group-item" th:text="${lesson.title}">lazione</li>
+					<li class="list-group-item">A second item</li>
+					<li class="list-group-item">A third item</li>
+				</ul>
+			</div>
+			
+		</div>
+	</div>
+		
+ 
+	<footer th:replace="~{fragments/base :: footer}"><footer>
+
+</body>
+</html>

@@ -5,8 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 
 import jakarta.persistence.GeneratedValue;
@@ -56,11 +55,11 @@ public class Instructor {
 	
 	private String descrizione;
 	
-	@OneToMany(mappedBy = "instructor")
-	private List<Cours> corso;
+	@OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
+	private List<Course> courses;
 	
 	public Instructor() {
-		this.corso=new LinkedList<>();
+		this.courses=new LinkedList<>();
 	}
 	
 	
@@ -105,12 +104,12 @@ public class Instructor {
 		this.instagramUrl = instagramUrl;
 	}
 
-	public List<Cours> getcorso() {
-		return corso;
+	public List<Course> getCourses() {
+		return courses;
 	}
 
-	public void setcorso(List<Cours> corso) {
-		this.corso = corso;
+	public void setCourses(List<Course> cours) {
+		this.courses = cours;
 	}
 
 	public String getEmail() {

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/base :: head(title=Istruttori)}">Istruttori</head>
+<head th:replace="~{fragments/base :: head(title=Corsi)}">Corsi</head>
 
 <body>
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
@@ -13,17 +13,16 @@
 					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Filtra per tipo </button>
 					<div class="dropdown-menu">
 						<div class="container-fluid">
-							<form th:action="@{/instructor/search}" method="POST" class="mb-3">
+							<form th:action="@{/course/search}" method="POST" class="mb-3">
 								<div class="row">
 									<div class="col-md-4">
 										<select class="form-select" type"text" th:value="${type}" name="type">
-											<option value="name">Nome</option>
-											<option value="surname">Cognome</option>
-											<option value="speciality">Specialità</option>
+											<option value="title">Titolo</option>
+											<option value="typology">Tipologia</option>
 										</select>
 									</div>
 									<div class="col-md-4">
-										<input class="form-control" placeholder="Es. Marco, Rossi, Surf" required type="text" th:value="${attribute}" name="attribute"/>
+										<input class="form-control" placeholder="Es. Surf" required type="text" th:value="${attribute}" name="attribute"/>
 									</div>
 									<div class="col-md-4">
 										<button type="submit" class="btn btn-primary">Cerca</button>
@@ -35,23 +34,23 @@
 				</div>
 			</div>
 			<div class="col">
-				<a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2" th:href="@{'/instructor/add/new'}"> Add new</a>
+				<a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/add/new'}"> Add new</a>
 			</div>
 		</div>
 	</div>
 	
-	<div th:if="${instructors.isEmpty()}">Non ci sono istruttori nel sistema</div>
+	<div th:if="${courses.isEmpty()}">Non ci sono corsi nel sistema</div>
 	
 	<!--Inizio delle card-->	
 	<div class="container text-center">
 		<div class="row ">
-			<div class="col mb-4 d-flex justify-content-center" th:each="instructor : ${instructors}">
+			<div class="col mb-4 d-flex justify-content-center" th:each="course : ${courses}">
 				<div class="card" style="width: 18rem;">
-					<a class="text-reset text-decoration-none" th:href="@{'/instructor' + '/' + ${instructor.id}}">
+					<a class="text-reset text-decoration-none" th:href="@{'/course/' + ${course.id}}">
 						<img src="..." class="card-img-top" alt="...">
 						<div class="card-body">
-							<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Card title</h5>
-							<p class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</p>
+							<h5 class="card-title" th:text="${course.title} ">Card title</h5>
+							<p class="card-text" th:text=" 'Tipologia: ' + ${course.typology}">Typology</p>
 						</div>
 					</a>
 				</div>

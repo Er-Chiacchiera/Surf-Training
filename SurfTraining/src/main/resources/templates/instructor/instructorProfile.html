@@ -32,8 +32,35 @@
 				</div>
 			</div>
 			<!--Lista dei corsi-->
-			<div class="col-6">.col-6<br>Subsequent columns continue along the new line.
+			<div class="col-8">
+				
+				<div class="row" sec:authorize="hasAuthority('ADMIN')">
+					<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/add/new/' + ${instructor.id}}"> Add new</a>
+				</div>
+				
+				<div class="row" th:if="${instructor.courses.isEmpty()}">
+					Non ci sono corsi nel sistema
+				</div>
+				
+				<!--Inizio delle card-->
+				<div class="row text-center">
+					
+						<div class="col mb-4 d-flex justify-content-center" th:each="course : ${instructor.courses}">
+							<div class="card" style="width: 18rem;">
+								<a class="text-reset text-decoration-none" th:href="@{'/course/' + ${course.id}}">
+									<img src="..." class="card-img-top" alt="...">
+									<div class="card-body">
+										<h5 class="card-title" th:text="${course.title} ">Card title</h5>
+										<p class="card-text" th:text=" 'Tipologia: ' + ${course.typology}">Typology</p>
+									</div>
+								</a>
+							</div>
+						</div>
+					
+				</div>
 			</div>
+			
+			
 		</div>
 	</div>
 
