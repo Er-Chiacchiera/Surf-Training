@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
@@ -34,8 +33,7 @@ public class Course {
 	@ManyToOne
 	private Instructor instructor;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "course_id")
+	@OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
 	List<Lesson> lessons;
 	
 	

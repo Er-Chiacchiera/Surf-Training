@@ -11,14 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import it.uniroma3.siw.controller.validator.LessonValidator;
-import it.uniroma3.siw.model.Course;
 import it.uniroma3.siw.model.Lesson;
-import it.uniroma3.siw.service.LessonService;
 import it.uniroma3.siw.service.CourseService;
 import it.uniroma3.siw.service.InstructorService;
+import it.uniroma3.siw.service.LessonService;
 import jakarta.validation.Valid;
 
 @Controller
@@ -29,13 +27,14 @@ public class LessonController {
 	@Autowired InstructorService instructorService;
 	@Autowired CourseService courseService;
 
-	public static final String COURSE_DIR = "lesson/";
+	public static final String LESSON_DIR = "lesson/";
+	public static final String COURSE_DIR = "course/";
 
 	/*Mostra la lista di tutti gli istruttori*/
 	@GetMapping("/all")
 	public String getLessons(Model model) {
 		model.addAttribute("lessons", this.lessonService.GetAllLessons());
-		return  COURSE_DIR + "lessonList";
+		return  LESSON_DIR + "lessonList";
 	}
 
 	/*Form per aggiungere un nuovo corso*/
@@ -43,7 +42,7 @@ public class LessonController {
 	public String formNewLesson(@PathVariable("idCourse") Long idCourse ,Model model) {
 		model.addAttribute("lesson", new Lesson());
 		model.addAttribute("idCourse", idCourse);
-		return COURSE_DIR + "lessonAdd";
+		return LESSON_DIR + "lessonAdd";
 	}
 
 	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
@@ -56,44 +55,33 @@ public class LessonController {
 			return "redirect:/course/" + idCourse;
 		}  
 		else {
-			return COURSE_DIR + "lessonAdd";
+			return LESSON_DIR + "lessonAdd";
 		}
-	}
-
-	@GetMapping("/{id}")
-	public String getLesson(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("lesson", this.lessonService.GetLessonById(id));
-		return COURSE_DIR + "lessonProfile";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String formEditLesson(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("lesson", this.lessonService.GetLessonById(id));
-		return COURSE_DIR + "lessonEdit";
+		return LESSON_DIR + "lessonEdit";
 	}
 
 	@PostMapping("/update/{id}")
-	public String updateLesson(@Valid @ModelAttribute("lesson") Lesson lesson, BindingResult bindingResult, Model model) {
+	public String updateLesson(@Valid @ModelAttribute("lesson") Lesson lesson,@PathVariable("id") Long id, BindingResult bindingResult, Model model) {
 		this.lessonValidator.validate(lesson, bindingResult);
 		if (bindingResult.hasErrors()) {
-			return COURSE_DIR + "lessonEdit";
+			return LESSON_DIR + "lessonEdit";
 		}
-		this.lessonService.updateLesson(lesson); 
-		model.addAttribute("lesson", lesson);
-		return "redirect:/lesson/" + lesson.getId();
+		this.lessonService.updateLesson(lesson);
+		Long courseId=this.courseService.findCourseByLesson(lesson).getId();
+		
+		return "redirect:/course/" + courseId;
 	}
 
-	@PostMapping("/search")
-	public String searchLessons(@RequestParam(name = "type") String type,@RequestParam(name = "attribute", defaultValue = "") String attribute,
-			Model model) {
-		model.addAttribute("lessons",this.lessonService.GetAllLessonByTypeAndAttribute(type,attribute));
-		return COURSE_DIR + "lessonList";
-	}
 
-	@GetMapping("/delete/{id}")
-	public String deleteLesson(@PathVariable("id") Long id, Model model) {
-		this.lessonService.deleteById(id);
-		return "redirect:/lesson/all";
+	@GetMapping("/delete/{idCourse}/{idLesson}")
+	public String deleteLesson(@PathVariable("idCourse") Long idCourse, @PathVariable("idLesson") Long idLesson , Model model) {
+		this.lessonService.deleteById(idCourse, idLesson);
+		return "redirect:/course/{idCourse}";
 	}
 
 

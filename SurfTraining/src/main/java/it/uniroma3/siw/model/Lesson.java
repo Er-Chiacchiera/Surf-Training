@@ -2,18 +2,14 @@ package it.uniroma3.siw.model;
 
 
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 
 
@@ -27,18 +23,19 @@ public class Lesson {
 	@NotBlank
 	private String title;
 	
+	@Column(length = 5000)
 	@NotBlank
 	private String description;
 	
+	@Column(length = 10000)
+	@NotBlank
+	private String exercise;
+
 	@ManyToOne
 	private Course course;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "lesson_id")
-	List<Exercise> exercises;
 	
 	public Lesson() {
-		this.exercises=new LinkedList<>();
 	}
 	
 	/***************** Get e Set metod *****************/
@@ -66,6 +63,14 @@ public class Lesson {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public String getExercise() {
+		return exercise;
+	}
+
+	public void setExercise(String exercise) {
+		this.exercise = exercise;
+	}
 
 	public Course getCourse() {
 		return course;
@@ -75,13 +80,6 @@ public class Lesson {
 		this.course = course;
 	}
 
-	public List<Exercise> getExercise() {		
-		return exercises;
-	}
-
-	public void setExercises(List<Exercise> exercises) {
-		this.exercises = exercises;
-	}
 
 	/***************** hashCode e equals metod *****************/
 	@Override

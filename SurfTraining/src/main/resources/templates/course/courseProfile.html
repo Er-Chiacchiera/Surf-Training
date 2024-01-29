@@ -6,8 +6,8 @@
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
 	
 	<div class="container text-center">
-		<div class="row">
-			<div class="col">
+		<div class="row mb-2">
+			<div class="row">
 				<h2 th:text="${course.title}">
 				<h3 th:text="${course.description}">
 			</div>
@@ -23,10 +23,28 @@
 			<div class="row" th:if="${course.lessons.isEmpty()}">
 					Non ci sono lezioni nel corso
 			</div>
-			<div class="card" style="width: 18rem;">
-				<ul class="list-group list-group-flush" th:each="lesson : ${course.lessons}">
-					<li class="list-group-item" th:text="${lesson.title}">lezione</li>
-				</ul>
+			
+			<div class="card mx-auto">
+			    <ul class="list-group list-group-flush" th:each="lesson : ${course.lessons}">
+			        <li class="list-group-item">
+			            <!-- pulsante per il collapse down e mostrare la lezione-->
+			            <p class=" d-grid gap-2">
+			                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" th:text="${lesson.title}">
+			                </button>
+			            </p>
+			            <!-- Contenuto di ogni collapse-->
+			            <div class="collapse card card-body" id="collapseExample" >
+							<div class="row">
+			                <span th:text="${lesson.description}"> </span>
+			                <span th:text="${lesson.exercise}"> </span>
+							</div>
+							<div class="row">
+			                <a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
+							<a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}"> Delete lesson</a>
+							</div>
+			            </div>
+			        </li>
+			    </ul>
 			</div>
 			
 		</div>

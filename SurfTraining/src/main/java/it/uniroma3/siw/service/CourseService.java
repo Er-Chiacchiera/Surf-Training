@@ -58,4 +58,8 @@ public class CourseService {
 		this.courseRepository.save(course);
 		
 	}
+
+	public Course findCourseByLesson(@Valid Lesson lesson) {
+		return this.courseRepository.findByLessons(lesson);
+	}
 }
