@@ -36,9 +36,9 @@ public class CourseService {
 
 	public Iterable<Course> GetAllCourseByTypeAndAttribute(String type, String attribute) {
 		if(type.equals("title"))
-			return this.courseRepository.findBytitle(attribute);
+			return this.courseRepository.findBytitleContaining(attribute);
 		else
-			return this.courseRepository.findByTypology(attribute);
+			return this.courseRepository.findByTypologyContaining(attribute);
 	}
 
 	public void deleteById(Long id) {

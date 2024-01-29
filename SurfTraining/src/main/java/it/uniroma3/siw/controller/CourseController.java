@@ -73,7 +73,6 @@ public class CourseController {
 
 	@PostMapping("/update/{id}")
 	public String updateCourse(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult, Model model) {
-		this.courseValidator.validate(course, bindingResult);
 		if (bindingResult.hasErrors()) {
 			return COURSE_DIR + "courseEdit";
 		}

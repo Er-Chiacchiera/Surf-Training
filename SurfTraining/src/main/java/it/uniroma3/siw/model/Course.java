@@ -33,7 +33,7 @@ public class Course {
 	@ManyToOne
 	private Instructor instructor;
 	
-	@OneToMany(mappedBy = "lesson",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
 	List<Lesson> lessons;
 	
 	

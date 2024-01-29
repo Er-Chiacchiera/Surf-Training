@@ -11,9 +11,9 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 	
 	public boolean existsByTitleAndTypology(String title, String typology);
 	
-	public List<Course> findBytitle(String title);
+	public List<Course> findBytitleContaining(String title);
 
-	public List<Course> findByTypology(String typology);
+	public List<Course> findByTypologyContaining(String typology);
 	
 	public Course findByLessons(Lesson lesson);
 

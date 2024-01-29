@@ -22,11 +22,13 @@
 				<div class="col-12">
 					<label for="description" class="form-label"> Descizione</label>
 					<textarea class="form-control" aria-label="With textarea" type="text" th:field="${lesson.description}" id="description"></textarea>
+					<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
 				</div>
 				
 				<div class="col-12">
 					<label for="exercise" class="form-label"> Esercizi</label>
 					<textarea class="form-control" aria-label="With textarea" type="text" th:field="${lesson.exercise}" id="exercise"></textarea>
+					<span th:if="${#fields.hasErrors('exercise')}" th:errors="*{exercise}"></span>
 				</div>
 				
 				<div class="col-12">

@@ -8,18 +8,18 @@
 	<div class="container text-center">
 		<div class="row mb-2">
 			<div class="row">
-				<h2 th:text="${course.title}">
-				<h3 th:text="${course.description}">
+				<h2 class="row justify-content-center" th:text="${course.title}"></h2>
+				<h4 class="row" th:text="${course.description}"></h4>
 			</div>
-			<div class="col" sec:authorize="hasAuthority('ADMIN')">
-				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/edit/' + ${course.id}}"> Edit Course</a>
-				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/delete/' + ${course.id}}"> Delete Couse</a>
-				<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/lesson/add/new/' + ${course.id}}"> Add lesson</a>
+			<div class="row" sec:authorize="hasAuthority('ADMIN')">
+				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}"> Edit Course</a>
+				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/delete/' + ${course.id}}"> Delete Couse</a>
+				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/lesson/add/new/' + ${course.id}}"> Add lesson</a>
 			</div>	
 		</div>
 		
 		<!--card delle lezioni-->
-		<div class="row">
+		<div class="row mb-4">
 			<div class="row" th:if="${course.lessons.isEmpty()}">
 					Non ci sono lezioni nel corso
 			</div>
@@ -47,6 +47,11 @@
 			    </ul>
 			</div>
 			
+		</div>
+		<div class="row">
+			<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/instructor/' + ${course.instructor.id}}">
+				<span th:text="'Corso credato da: ' + ${course.instructor.name}"> Nome instruttore </span>
+			</a>
 		</div>
 	</div>
 		

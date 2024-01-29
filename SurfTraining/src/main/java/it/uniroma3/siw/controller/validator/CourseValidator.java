@@ -6,13 +6,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import it.uniroma3.siw.model.Course;
-import it.uniroma3.siw.repository.CourseRepository;
 import it.uniroma3.siw.service.CourseService;
 
 @Component
 public class CourseValidator implements Validator {
-	@Autowired
-	private CourseRepository courseRepository;
 	
 	@Autowired
 	private CourseService courseService;
