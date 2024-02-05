@@ -10,10 +10,10 @@ public interface InstructorRepository extends CrudRepository<Instructor, Long> {
 	
 	public boolean existsByNameAndSurname(String Name, String surname);
 	
-	public List<Instructor> findBySurname(String surname);
+	public List<Instructor> findBySurnameContains(String surname);
 	
-	public List<Instructor> findByName(String name);
+	public List<Instructor> findByNameContains(String name);
 
-	public List<Instructor> findBySpeciality(String speciality);
+	public List<Instructor> findBySpecialityContains(String speciality);
 
 }

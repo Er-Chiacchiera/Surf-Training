@@ -41,11 +41,11 @@ public class InstructorService {
 
 	public Iterable<Instructor> GetAllInstructorByTypeAndAttribute(String type, String attribute) {
 		if(type.equals("name"))
-			return this.instructorRepository.findByName(attribute);
+			return this.instructorRepository.findByNameContains(attribute);
 		else if(type.equals("surname"))
-			return this.instructorRepository.findBySurname(attribute);
+			return this.instructorRepository.findBySurnameContains(attribute);
 		else
-			return this.instructorRepository.findBySpeciality(attribute);
+			return this.instructorRepository.findBySpecialityContains(attribute);
 	}
 
 	public void deleteById(Long id) {
