@@ -14,20 +14,24 @@
 				<div class="card" style="width: 18rem;">
 					<img src="..." class="card-img-top" alt="...">
 					<div class="card-body">
-						<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Nome e Cognome</h5>
+						<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Nome e Cognome
+						</h5>
 						<h6 class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</h6>
 						<p class="card-text" th:text="${instructor.descrizione}">Descrizione</p>
 					</div>
 					<ul class="list-group list-group-flush">
-						<li class="list-group-item" th:text="'Nato il: ' + ${instructor.dateOfBirth}">Data di nascita</li>
+						<li class="list-group-item" th:text="'Nato il: ' + ${instructor.dateOfBirth}">Data di nascita
+						</li>
 						<li class="list-group-item" th:text="'Email: ' + ${instructor.email}">Email</li>
 						<div th:if="${! instructor.instagramUrl.isEmpty()}">
-							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}" class="card-link">profilo Instagram</a></li>
+							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}"
+									class="card-link">profilo Instagram</a></li>
 						</div>
 						<!--solo per admin-->
 						<div sec:authorize="hasAuthority('ADMIN')">
-							<li class="list-group-item"><a type="button" class="btn btn-primary card-link" th:href="@{'/instructor/edit/' + ${instructor.id}}">Modifica istruttore</a></li>
-							
+							<li class="list-group-item"><a type="button" class="btn btn-primary card-link"
+									th:href="@{'/instructor/edit/' + ${instructor.id}}">Modifica istruttore</a></li>
+
 							<li class="list-group-item">
 								<!-- Button trigger modal -->
 								<a type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -38,7 +42,8 @@
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h1 class="modal-title fs-5" id="exampleModalLabel">Elimina istruttore</h1>
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Elimina istruttore
+												</h1>
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
@@ -63,8 +68,11 @@
 			<!--Lista dei corsi-->
 			<div class="col-8">
 
-				<div class="row" sec:authorize="hasAuthority('ADMIN')">
-					<a type="button" class="btn btn-outline-primary me-2" th:href="@{'/course/add/new/' + ${instructor.id}}"> Add new course</a>
+				<div class="row justify-content-md-center" sec:authorize="hasAuthority('ADMIN')">
+					<div class="col-12 col-md-auto mb-2 mb-md-0">
+						<a type="button" class="btn btn-outline-primary"
+							th:href="@{'/course/add/new/' + ${instructor.id}}">Add new course</a>
+					</div>
 				</div>
 
 				<div class="row" th:if="${instructor.courses.isEmpty()}">

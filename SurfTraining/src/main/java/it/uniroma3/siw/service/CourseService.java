@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 @Service
 public class CourseService {
 	@Autowired CourseRepository courseRepository;
+	@Autowired LessonService lessonService;
 
 	@Transactional
 	public void addNewCourse(Course course) {
@@ -53,6 +54,7 @@ public class CourseService {
 
 	public void addNewLesson(Long idCourse, @Valid Lesson lesson) {
 		Course course = this.courseRepository.findById(idCourse).get();
+		lesson.setExercise(this.lessonService.replaceCherWithString(lesson.getExercise()));
 		course.getLessons().add(lesson);
 		lesson.setCourse(course);;;
 		this.courseRepository.save(course);

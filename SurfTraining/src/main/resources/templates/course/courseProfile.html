@@ -16,8 +16,32 @@
 			<div class="row" sec:authorize="hasAuthority('ADMIN')">
 				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}">
 					Edit Course</a>
-				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/delete/' + ${course.id}}">
-					Delete Couse</a>
+
+				<!-- Button trigger modal -->
+				<a type="button" class="btn btn-outline-primary me-2 col " data-bs-toggle="modal"
+					data-bs-target="#exampleModal"> Delete course</a>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5" id="exampleModalLabel">Elimina corso</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body" th:text="'Sicuro di voler eliminare il corso ' +${course.title}">
+								...
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+								<a type="button" class="btn btn-primary"
+									th:href="@{'/course/delete/' + ${course.id}}">Si</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
 				<a type="button" class="btn btn-outline-primary me-2 col"
 					th:href="@{'/lesson/add/new/' + ${course.id}}"> Add lesson</a>
 			</div>
@@ -35,23 +59,47 @@
 						<!-- pulsante per il collapse down e mostrare la lezione-->
 						<p class=" d-grid gap-2">
 							<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-								data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+								th:href="'#'+${lesson.id}" aria-expanded="false" aria-controls="collapseExample"
 								th:text="${lesson.title}">
 							</button>
 						</p>
 						<!-- Contenuto di ogni collapse-->
-						<div class="collapse card card-body" id="collapseExample">
+						<div class="collapse card card-body" th:id="${lesson.id}">
 							<div class="row">
 								<span th:text="${lesson.description}"> </span>
-								<span th:text="${lesson.exercise}"> </span>
+								<span th:utext="${lesson.exercise}"> </span>
+
 							</div>
 							<div class="row" sec:authorize="hasAuthority('ADMIN')">
-								<a type="button"
-									class="btn btn-outline-primary me-2 col"
+								<a type="button" class="btn btn-outline-primary me-2 col"
 									th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
-								<a type="button"
-									class="btn btn-outline-primary me-2 col"
-									th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}"> Delete lesson</a>
+
+								<!-- Button trigger modal -->
+								<a type="button" class="btn btn-outline-primary me-2 col " data-bs-toggle="modal"
+									th:href="'#exampleModal' + ${lesson.id}"> Delete lesson</a>
+								<!-- Modal -->
+								<div class="modal fade" th:id="'exampleModal' + ${lesson.id}" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h1 class="modal-title fs-5" id="exampleModalLabel">Delete lesson</h1>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<div class="modal-body"
+												th:text="'Sicuro di voler eliminare la lezione ' +${lesson.title}">
+												...
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">No</button>
+												<a type="button" class="btn btn-primary"
+													th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}">Si</a>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</li>
