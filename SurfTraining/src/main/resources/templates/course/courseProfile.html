@@ -14,8 +14,10 @@
 			</div>
 
 			<div class="row" sec:authorize="hasAuthority('ADMIN')">
-				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}"> Edit Course</a>
-				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/delete/' + ${course.id}}"> Delete Couse</a>
+				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}">
+					Edit Course</a>
+				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/delete/' + ${course.id}}">
+					Delete Couse</a>
 				<a type="button" class="btn btn-outline-primary me-2 col"
 					th:href="@{'/lesson/add/new/' + ${course.id}}"> Add lesson</a>
 			</div>
@@ -32,7 +34,9 @@
 					<li class="list-group-item">
 						<!-- pulsante per il collapse down e mostrare la lezione-->
 						<p class=" d-grid gap-2">
-							<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" th:text="${lesson.title}">
+							<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+								data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
+								th:text="${lesson.title}">
 							</button>
 						</p>
 						<!-- Contenuto di ogni collapse-->
@@ -41,9 +45,13 @@
 								<span th:text="${lesson.description}"> </span>
 								<span th:text="${lesson.exercise}"> </span>
 							</div>
-							<div class="row">
-								<a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
-								<a sec:authorize="hasAuthority('ADMIN')" type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}"> Delete lesson</a>
+							<div class="row" sec:authorize="hasAuthority('ADMIN')">
+								<a type="button"
+									class="btn btn-outline-primary me-2 col"
+									th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
+								<a type="button"
+									class="btn btn-outline-primary me-2 col"
+									th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}"> Delete lesson</a>
 							</div>
 						</div>
 					</li>
@@ -52,7 +60,8 @@
 
 		</div>
 		<div class="row">
-			<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/instructor/' + ${course.instructor.id}}">
+			<a type="button" class="btn btn-outline-primary me-2 col"
+				th:href="@{'/instructor/' + ${course.instructor.id}}">
 				<span th:text="'Corso credato da: ' + ${course.instructor.name}"> Nome instruttore </span>
 			</a>
 		</div>
