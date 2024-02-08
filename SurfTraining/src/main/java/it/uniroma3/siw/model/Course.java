@@ -36,6 +36,8 @@ public class Course {
 	@OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
 	List<Lesson> lessons;
 	
+	private String pathImg;
+	
 	
 	public Course() {
 		this.lessons=new LinkedList<>();
@@ -89,6 +91,14 @@ public class Course {
 
 	public void setLessons(List<Lesson> lessons) {
 		this.lessons = lessons;
+	}
+
+	public String getPathImg() {
+		return pathImg;
+	}
+
+	public void setPathImg(String pathImg) {
+		this.pathImg = pathImg;
 	}
 
 	/***************** hashCode e equals metod *****************/

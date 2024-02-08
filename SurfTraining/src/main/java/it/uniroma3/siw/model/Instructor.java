@@ -58,6 +58,8 @@ public class Instructor {
 	@OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
 	private List<Course> courses;
 	
+	private String pathImg;
+	
 	public Instructor() {
 		this.courses=new LinkedList<>();
 	}
@@ -135,6 +137,16 @@ public class Instructor {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
+public String getPathImg() {
+		return pathImg;
+	}
+
+
+	public void setPathImg(String pathImg) {
+		this.pathImg = pathImg;
+	}
+
+
 /***************** hashCode e equals metod *****************/
 	@Override
 	public int hashCode() {

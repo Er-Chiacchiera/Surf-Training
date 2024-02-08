@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Course;
 import it.uniroma3.siw.model.Lesson;
+import it.uniroma3.siw.presentation.FileStorer;
 import it.uniroma3.siw.repository.CourseRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -13,6 +14,7 @@ import jakarta.validation.Valid;
 public class CourseService {
 	@Autowired CourseRepository courseRepository;
 	@Autowired LessonService lessonService;
+	@Autowired InstructorService instructorService;
 
 	@Transactional
 	public void addNewCourse(Course course) {
@@ -32,6 +34,8 @@ public class CourseService {
 		old.setTitle(course.getTitle());
 		old.setDescription(course.getDescription());
 		old.setTypology(course.getTypology());
+		if(course.getPathImg()!=null)
+			old.setPathImg(course.getPathImg());
 		this.courseRepository.save(old);	
 	}
 
@@ -42,14 +46,19 @@ public class CourseService {
 			return this.courseRepository.findByTypologyContaining(attribute);
 	}
 
+	@Transactional
 	public void deleteById(Long id) {
+		Course course = this.GetCourseById(id);
+		this.instructorService.removeCourse(course, course.getInstructor());
+		if(course.getPathImg()!=null)
+			FileStorer.removeImg("course", course.getPathImg());
 		this.courseRepository.deleteById(id);
 	}
 
 	public boolean alreadyExist(Course course) {
-		
+
 		return this.courseRepository.existsByTitleAndTypology(course.getTitle(), course.getTypology());
-		
+
 	}
 
 	public void addNewLesson(Long idCourse, @Valid Lesson lesson) {
@@ -58,7 +67,7 @@ public class CourseService {
 		course.getLessons().add(lesson);
 		lesson.setCourse(course);;;
 		this.courseRepository.save(course);
-		
+
 	}
 
 	public Course findCourseByLesson(@Valid Lesson lesson) {

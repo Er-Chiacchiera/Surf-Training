@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import it.uniroma3.siw.model.Course;
 import it.uniroma3.siw.model.Instructor;
+import it.uniroma3.siw.presentation.FileStorer;
 import it.uniroma3.siw.repository.InstructorRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 @Service
 public class InstructorService {
 	@Autowired InstructorRepository instructorRepository;
+	@Autowired CourseService courseService;
 
 	@Transactional
 	public void addNewInstructor(Instructor instructor) {
@@ -35,6 +37,8 @@ public class InstructorService {
 		old.setDescrizione(instructor.getDescrizione());
 		old.setInstagramUrl(instructor.getInstagramUrl());
 		old.setEmail(instructor.getEmail());
+		if(instructor.getPathImg()!=null)
+			old.setPathImg(instructor.getPathImg());
 		
 		this.instructorRepository.save(old);	
 	}
@@ -49,7 +53,13 @@ public class InstructorService {
 	}
 
 	public void deleteById(Long id) {
-		this.instructorRepository.deleteById(id);
+		Instructor instructor=this.GetInstructordById(id);
+		for(Course course :instructor.getCourses())
+			this.courseService.deleteById(course.getId());;
+		if(instructor.getPathImg()!=null)
+			FileStorer.removeImg("instructor",instructor.getPathImg());
+			
+			this.instructorRepository.deleteById(id);
 	}
 
 	public void addNewCourse(Long idInstructor, @Valid Course course) {
@@ -58,6 +68,13 @@ public class InstructorService {
 				instructor.getCourses().add(course);
 				course.setInstructor(instructor);;
 				this.instructorRepository.save(instructor);
+	}
+	
+	@Transactional
+	public void removeCourse(Course course, Instructor instructor) {
+		instructor.getCourses().remove(course);
+		this.instructorRepository.save(instructor);
+		
 	}
 }
 

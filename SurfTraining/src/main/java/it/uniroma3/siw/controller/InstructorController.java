@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.InstructorValidator;
 import it.uniroma3.siw.model.Instructor;
+import it.uniroma3.siw.presentation.FileStorer;
 import it.uniroma3.siw.service.InstructorService;
 import jakarta.validation.Valid;
 
@@ -42,10 +44,15 @@ public class InstructorController {
 	
 	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
 	@PostMapping("/add")
-	public String newInstructor(@Valid @ModelAttribute("instructor") Instructor instructor,BindingResult bindingResult , Model model) {
+	public String newInstructor(@Valid @ModelAttribute("instructor") Instructor instructor,BindingResult bindingResult, @RequestParam("file") MultipartFile file , Model model) {
 	this.instructorValidator.validate(instructor, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			this.instructorService.addNewInstructor(instructor);
+			
+			if(!file.isEmpty()) {
+				instructor.setPathImg(FileStorer.store(file,"instructor",instructor.getId()));
+				this.instructorService.updateInstructor(instructor);
+			}
 			model.addAttribute("instructor", instructor);
 			return INSTRUCTOR_DIR + "instructorProfile";
 		} 
@@ -67,10 +74,13 @@ public class InstructorController {
 	}
 	
     @PostMapping("/update/{id}")
-    public String updateInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, BindingResult bindingResult, Model model) {
+    public String updateInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, @RequestParam("file") MultipartFile file  ,BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
         	return INSTRUCTOR_DIR + "instructorEdit";
         }
+        if(!file.isEmpty()) {
+			instructor.setPathImg(FileStorer.store(file,"instructor",instructor.getId()));
+		}
         this.instructorService.updateInstructor(instructor); 
 		model.addAttribute("instructor", instructor);
 		return INSTRUCTOR_DIR + "instructorProfile";

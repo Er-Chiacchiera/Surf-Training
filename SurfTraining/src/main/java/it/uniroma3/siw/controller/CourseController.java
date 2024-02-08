@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw.controller.validator.CourseValidator;
 import it.uniroma3.siw.model.Course;
+import it.uniroma3.siw.presentation.FileStorer;
 import it.uniroma3.siw.service.CourseService;
 import it.uniroma3.siw.service.InstructorService;
 import jakarta.validation.Valid;
@@ -40,17 +42,22 @@ public class CourseController {
 	public String formNewInstrucotr(@PathVariable("idInstructor") Long idInstructor ,Model model) {
 		model.addAttribute("course", new Course());
 		model.addAttribute("idInstructor", idInstructor);
-		System.out.println("Qui ci sono\n\n\n\n\n");
 		return COURSE_DIR + "courseAdd";
 	}
 
 	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
 	@PostMapping("/add/{idInstructor}")
-	public String newCourse(@Valid @ModelAttribute("course") Course course,BindingResult bindingResult , @PathVariable("idInstructor") Long idInstructor, Model model) {
+	public String newCourse(@Valid @ModelAttribute("course") Course course,BindingResult bindingResult , @PathVariable("idInstructor") Long idInstructor, @RequestParam("file")MultipartFile file, Model model) {
 		System.out.println("Qui ci sono\n\n\n\\n\n");
 		this.courseValidator.validate(course, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			this.instructorService.addNewCourse(idInstructor,course);
+			
+			if(!file.isEmpty()) {
+				course.setPathImg(FileStorer.store(file,"course",course.getId()));
+				this.courseService.updateCourse(course);
+			}
+			
 			model.addAttribute("course", course);
 			return "redirect:/course/all";
 		}  
@@ -72,10 +79,14 @@ public class CourseController {
 	}
 
 	@PostMapping("/update/{id}")
-	public String updateCourse(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult, Model model) {
+	public String updateCourse(@Valid @ModelAttribute("course") Course course, BindingResult bindingResult, @RequestParam("file")MultipartFile file, Model model) {
 		if (bindingResult.hasErrors()) {
 			return COURSE_DIR + "courseEdit";
 		}
+		if(!file.isEmpty()) {
+			course.setPathImg(FileStorer.store(file,"course",course.getId()));
+		}
+		
 		this.courseService.updateCourse(course); 
 		model.addAttribute("course", course);
 		return "redirect:/course/" + course.getId();
