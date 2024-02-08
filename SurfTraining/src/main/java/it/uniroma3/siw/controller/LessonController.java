@@ -43,7 +43,6 @@ public class LessonController {
 	@GetMapping("/add/new/{idCourse}")
 	public String formNewLesson(@PathVariable("idCourse") Long idCourse, Model model) {
 		model.addAttribute("lesson", new Lesson());
-		model.addAttribute("idCourse", idCourse);
 		return LESSON_DIR + "lessonAdd";
 	}
 
@@ -52,7 +51,10 @@ public class LessonController {
 	public String newLesson(@Valid @ModelAttribute("lesson") Lesson lesson, BindingResult bindingResult,
 			@PathVariable("idCourse") Long idCourse, Model model) {
 		this.lessonValidator.validate(lesson, bindingResult);
+		
 		if (!bindingResult.hasErrors()) {
+			lesson.setExercise(this.lessonService.replaceCharWithString(lesson.getExercise()));
+			this.lessonService.setCourseInLesson(lesson,idCourse);
 			this.courseService.addNewLesson(idCourse, lesson);
 			model.addAttribute("lesson", lesson);
 			return "redirect:/course/" + idCourse;
@@ -63,7 +65,9 @@ public class LessonController {
 
 	@GetMapping("/edit/{id}")
 	public String formEditLesson(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("lesson", this.lessonService.GetLessonById(id));
+		Lesson lesson = this.lessonService.GetLessonById(id);
+		lesson.setExercise(this.lessonService.restoreReplacement(lesson.getExercise()));
+		model.addAttribute("lesson", lesson);
 		return LESSON_DIR + "lessonEdit";
 	}
 
