@@ -46,7 +46,7 @@
 				<div class="card" style="width: 18rem;">
 					<a class="text-reset text-decoration-none" th:href="@{'/course/' + ${course.id}}">
 						<img th:if="${course.pathImg != null}" th:src="@{'/images/course/' + ${course.pathImg}}" class="card-img-top" alt="...">
-						<img th:unless="${course.pathImg != null}" src="/images/course/course.jpg" class="card-img-top" alt="...">
+						<img th:unless="${course.pathImg != null}" src="/images/preset/course.jpg" class="card-img-top" alt="...">
 						<div class="card-body">
 							<h5 class="card-title" th:text="${course.title} ">Card title</h5>
 							<p class="card-text" th:text=" 'Tipologia: ' + ${course.typology}">Typology</p>

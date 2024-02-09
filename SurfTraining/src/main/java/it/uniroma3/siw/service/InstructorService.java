@@ -63,7 +63,6 @@ public class InstructorService {
 	}
 
 	public void addNewCourse(Long idInstructor, @Valid Course course) {
-		// TODO Auto-generated method stub
 				Instructor instructor = this.instructorRepository.findById(idInstructor).get();
 				instructor.getCourses().add(course);
 				course.setInstructor(instructor);;
