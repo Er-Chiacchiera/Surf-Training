@@ -1,7 +1,5 @@
 package it.uniroma3.siw.model;
 
-
-
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -11,33 +9,29 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 
 @Entity
 public class Lesson {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
 	@NotBlank
 	private String title;
-	
+
 	@Column(length = 5000)
 	@NotBlank
 	private String description;
-	
-	
+
 	private String pathVideo;
 
 	@ManyToOne
 	private Course course;
-	
-	
+
 	public Lesson() {
 	}
-	
+
 	/***************** Get e Set metod *****************/
 
 	public Long getId() {
@@ -80,7 +74,6 @@ public class Lesson {
 		this.course = course;
 	}
 
-
 	/***************** hashCode e equals metod *****************/
 	@Override
 	public int hashCode() {
@@ -98,5 +91,5 @@ public class Lesson {
 		Lesson other = (Lesson) obj;
 		return Objects.equals(course, other.course) && Objects.equals(title, other.title);
 	}
-	
+
 }

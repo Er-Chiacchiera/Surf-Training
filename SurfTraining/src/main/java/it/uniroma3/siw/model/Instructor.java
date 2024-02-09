@@ -5,66 +5,60 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-
-
-
-
 
 @Entity
 public class Instructor {
-/*Dotato di Nome, Cognome, data di nascita, Specialità, email, profilo instagramUrl*/
+	/*
+	 * Dotato di Nome, Cognome, data di nascita, Specialità, email, profilo
+	 * instagramUrl
+	 */
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 
 	@Column(nullable = false)
 	@NotBlank
 	private String name;
-	
+
 	@Column(nullable = false)
 	@NotBlank
 	private String surname;
-	
+
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
 	private LocalDate dateOfBirth;
-	
+
 	@NotBlank
 	@Email
 	private String email;
-	
+
 	@NotBlank
 	private String speciality;
-	
+
 	private String instagramUrl;
-	
+
 	private String descrizione;
-	
-	@OneToMany(mappedBy = "instructor",cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
 	private List<Course> courses;
-	
+
 	private String pathImg;
-	
+
 	public Instructor() {
-		this.courses=new LinkedList<>();
+		this.courses = new LinkedList<>();
 	}
-	
-	
-/***************** Get e Set metod *****************/
+
+	/***************** Get e Set metod *****************/
 	public Long getId() {
 		return this.id;
 	}
@@ -76,15 +70,15 @@ public class Instructor {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getSurname() {
 		return surname;
 	}
-	
+
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
@@ -120,7 +114,7 @@ public class Instructor {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public String getSpeciality() {
 		return speciality;
 	}
@@ -136,17 +130,16 @@ public class Instructor {
 	public void setDescrizione(String descrizione) {
 		this.descrizione = descrizione;
 	}
-public String getPathImg() {
+
+	public String getPathImg() {
 		return pathImg;
 	}
-
 
 	public void setPathImg(String pathImg) {
 		this.pathImg = pathImg;
 	}
 
-
-/***************** hashCode e equals metod *****************/
+	/***************** hashCode e equals metod *****************/
 	@Override
 	public int hashCode() {
 		return Objects.hash(dateOfBirth, name, surname);
