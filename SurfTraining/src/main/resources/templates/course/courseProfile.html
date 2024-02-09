@@ -12,12 +12,12 @@
 				<h2 class="row justify-content-center" th:text="${course.title}"></h2>
 				<h4 class="row" th:text="${course.description}"></h4>
 			</div>
-
+			<!-- Sezione solo per admin dove si posso creare, eleminare il corso e aggiungere una nuova lezione -->
 			<div class="row" sec:authorize="hasAuthority('ADMIN')">
 				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}">
 					Edit Course</a>
 
-				<!-- Button trigger modal -->
+				<!-- Button trigger modal attivato nel caso si voglia cancellare il corso-->
 				<a type="button" class="btn btn-outline-primary me-2 col " data-bs-toggle="modal"
 					data-bs-target="#exampleModal"> Delete course</a>
 				<!-- Modal -->
@@ -47,7 +47,7 @@
 			</div>
 		</div>
 
-		<!--card delle lezioni-->
+		<!--************************** Sezione dedicata alle lezioni **************************-->
 		<div class="row mb-4">
 			<div class="row" th:if="${course.lessons.isEmpty()}">
 				Non ci sono lezioni nel corso
@@ -70,6 +70,7 @@
 								<span th:utext="${lesson.exercise}"> </span>
 
 							</div>
+							<!--sezione dedicata agli admin per cancellare o modificare una lezione-->
 							<div class="row" sec:authorize="hasAuthority('ADMIN')">
 								<a type="button" class="btn btn-outline-primary me-2 col"
 									th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
@@ -107,6 +108,7 @@
 			</div>
 
 		</div>
+		<!--Mostra l'instruttore proprietario del corso-->
 		<div class="row">
 			<a type="button" class="btn btn-outline-primary me-2 col"
 				th:href="@{'/instructor/' + ${course.instructor.id}}">
