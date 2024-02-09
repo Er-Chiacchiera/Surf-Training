@@ -67,9 +67,16 @@
 						<div class="collapse card card-body" th:id="${lesson.id}">
 							<div class="row">
 								<span> <b th:text="'Descrizione: ' + ${lesson.description}"> </b> </span>
-								<span th:utext="${lesson.exercise}"> </span>
-
+								<span>
+									<!--Video-->
+									<video width="320" height="240" controls>
+										<source th:src="@{'/images/lesson/' + ${lesson.pathVideo}}" type="video/mp4">
+										Your browser does not support the video tag.
+									  </video>
+								</span>
 							</div>
+
+
 							<!--sezione dedicata agli admin per cancellare o modificare una lezione-->
 							<div class="row" sec:authorize="hasAuthority('ADMIN')">
 								<a type="button" class="btn btn-outline-primary me-2 col"

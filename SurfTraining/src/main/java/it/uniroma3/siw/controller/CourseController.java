@@ -45,10 +45,9 @@ public class CourseController {
 		return COURSE_DIR + "courseAdd";
 	}
 
-	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
+	/*Verifico se il nuovo corso rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
 	@PostMapping("/add/{idInstructor}")
 	public String newCourse(@Valid @ModelAttribute("course") Course course,BindingResult bindingResult , @PathVariable("idInstructor") Long idInstructor, @RequestParam("file")MultipartFile file, Model model) {
-		System.out.println("Qui ci sono\n\n\n\\n\n");
 		this.courseValidator.validate(course, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			this.instructorService.addNewCourse(idInstructor,course);

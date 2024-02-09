@@ -30,6 +30,19 @@ public class FileStorer {
 		return fileNameAndPath.getFileName().toString();
 	}
 	
+	public static String storeVideo(MultipartFile file, String type, Long id) {
+		String newFileName=id.toString() + ".mp4";
+		Path fileNameAndPath  = Paths.get(setupDirName(type), newFileName);
+		System.out.println(fileNameAndPath);
+		try {
+			Files.write(fileNameAndPath, file.getBytes());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fileNameAndPath.getFileName().toString();
+	}
+	
 	public static void removeImg(String type, String name) {
 		Path fileNameAndPath  = Paths.get(setupDirName(type)+"/"+name);
 		try {

@@ -8,8 +8,8 @@
 
 	<div class="container-fluid">
 		<!--Form per aggiungere un nuovo Istruttore-->
-		<form th:action="@{'/instructor/update/' + ${instructor.id}}" method="POST" th:object="${instructor} enctype="multipart/form-data""
-			class="row g-3">
+		<form th:action="@{'/instructor/update/' + ${instructor.id}}" method="POST" th:object="${instructor}" enctype="multipart/form-data"
+			class="row g-3" novalidate>
 			<div th:if="${#fields.hasGlobalErrors()}">
 				<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 			</div>
@@ -26,11 +26,12 @@
 				<span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
 			</div>
 
-			<div class="col-md-6">
-				<label for="dateOfBirth" class="form-label">Data di nascita</label>
-				<input class="form-control" required type="date" th:field="${instructor.dateOfBirth}" id="dateOfBirth" placeholder="dd/mm/yyyy" />
-				<span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
-			</div>
+				<div class="col-md-6">
+					<label for="dateOfBirth" class="form-label">Data di nascita</label>
+					<input class="form-control" required type="date" th:field="${instructor.dateOfBirth}"
+						id="dateOfBirth" placeholder="dd/mm/yyyy" />
+					<span th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></span>
+				</div>
 			
 			<!--Inserimento della foto-->
 			<div class="mb-3">

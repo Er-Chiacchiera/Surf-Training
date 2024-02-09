@@ -25,7 +25,7 @@ import jakarta.validation.Valid;
 public class InstructorController {
 	@Autowired InstructorValidator instructorValidator;
 	@Autowired InstructorService instructorService;
-	
+
 	public static final String INSTRUCTOR_DIR = "instructor/";
 
 	/*Mostra la lista di tutti gli istruttori*/
@@ -34,21 +34,21 @@ public class InstructorController {
 		model.addAttribute("instructors", this.instructorService.GetAllInstructor());
 		return  INSTRUCTOR_DIR + "instructorList";
 	}
-	
+
 	/*Form per aggiungere un nuovo Istruttore*/
 	@GetMapping("/add/new")
 	public String formNewInstrucotr(Model model) {
 		model.addAttribute("instructor", new Instructor());
 		return INSTRUCTOR_DIR + "instructorAdd";
 	}
-	
+
 	/*Verifico se il nuovo istruttore rispetta i criteri e lo aggiungo al database altirmenti torno alla form*/
 	@PostMapping("/add")
 	public String newInstructor(@Valid @ModelAttribute("instructor") Instructor instructor,BindingResult bindingResult, @RequestParam("file") MultipartFile file , Model model) {
-	this.instructorValidator.validate(instructor, bindingResult);
+		this.instructorValidator.validate(instructor, bindingResult);
 		if (!bindingResult.hasErrors()) {
 			this.instructorService.addNewInstructor(instructor);
-			
+
 			if(!file.isEmpty()) {
 				instructor.setPathImg(FileStorer.store(file,"instructor",instructor.getId()));
 				this.instructorService.updateInstructor(instructor);
@@ -60,44 +60,52 @@ public class InstructorController {
 			return INSTRUCTOR_DIR + "instructorAdd";
 		}
 	}
-	
+
 	@GetMapping("/{id}")
 	public String getInstructor(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("instructor", this.instructorService.GetInstructordById(id));
 		return INSTRUCTOR_DIR + "instructorProfile";
 	}
-	
+
 	@GetMapping("/edit/{id}")
 	public String formEditInstructor(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("instructor", this.instructorService.GetInstructordById(id));
 		return INSTRUCTOR_DIR + "instructorEdit";
 	}
-	
-    @PostMapping("/update/{id}")
-    public String updateInstructor(@Valid @ModelAttribute("instructor") Instructor instructor, @RequestParam("file") MultipartFile file  ,BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-        	return INSTRUCTOR_DIR + "instructorEdit";
-        }
-        if(!file.isEmpty()) {
+
+
+	/*Se i dati inseriti sono corretti, viene aggiornato il profilo dell'atleta*/
+	@PostMapping("/update/{id}")
+	public String updateInstructor( @Valid @ModelAttribute("instructor") Instructor instructor, @RequestParam("file") MultipartFile file  ,BindingResult bindingResult, Model model) {
+		System.out.println("Sono entrato nel post\n\n");
+		this.instructorValidator.validate( instructor, bindingResult);
+		
+		if (bindingResult.hasErrors()) {
+			System.out.println("Qua ci sono\n\n");
+			return INSTRUCTOR_DIR + "instructorEdit";
+		}
+		
+		System.out.println("Invece sto qua\n\n");
+		if(!file.isEmpty()) {
 			instructor.setPathImg(FileStorer.store(file,"instructor",instructor.getId()));
 		}
-        this.instructorService.updateInstructor(instructor); 
+		this.instructorService.updateInstructor(instructor); 
 		model.addAttribute("instructor", instructor);
-		return INSTRUCTOR_DIR + "instructorProfile";
-    }
-    
-    @PostMapping("/search")
-    public String searchInstructors(@RequestParam(name = "type") String type,@RequestParam(name = "attribute", defaultValue = "") String attribute,
-            Model model) {
-    	model.addAttribute("instructors",this.instructorService.GetAllInstructorByTypeAndAttribute(type,attribute));
+		return "redirect:/instructor/" + instructor.getId();
+	}
+
+	@PostMapping("/search")
+	public String searchInstructors(@RequestParam(name = "type") String type,@RequestParam(name = "attribute", defaultValue = "") String attribute,
+			Model model) {
+		model.addAttribute("instructors",this.instructorService.GetAllInstructorByTypeAndAttribute(type,attribute));
 		return INSTRUCTOR_DIR + "instructorList";
 	}
-    
-    @GetMapping("/delete/{id}")
+
+	@GetMapping("/delete/{id}")
 	public String deleteInstructor(@PathVariable("id") Long id, Model model) {
 		this.instructorService.deleteById(id);
 		return "redirect:/instructor/all";
 	}
-    
-    
+
+
 }

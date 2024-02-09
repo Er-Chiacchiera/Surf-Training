@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 
 @Entity
@@ -27,9 +28,8 @@ public class Lesson {
 	@NotBlank
 	private String description;
 	
-	@Column(length = 10000)
-	@NotBlank
-	private String exercise;
+	
+	private String pathVideo;
 
 	@ManyToOne
 	private Course course;
@@ -63,13 +63,13 @@ public class Lesson {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	public String getExercise() {
-		return exercise;
+
+	public String getPathVideo() {
+		return pathVideo;
 	}
 
-	public void setExercise(String exercise) {
-		this.exercise = exercise;
+	public void setPathVideo(String pathVideo) {
+		this.pathVideo = pathVideo;
 	}
 
 	public Course getCourse() {

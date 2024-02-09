@@ -41,7 +41,6 @@ public class Instructor {
 	private String surname;
 	
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
-	@Past
 	private LocalDate dateOfBirth;
 	
 	@NotBlank

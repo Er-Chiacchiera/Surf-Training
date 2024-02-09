@@ -71,4 +71,11 @@ public class CourseService {
 	public Course findCourseByLesson(@Valid Lesson lesson) {
 		return this.courseRepository.findByLessons(lesson);
 	}
+	
+	@Transactional
+	public void removeLesson(Lesson lesson) {
+		Course course=this.courseRepository.findByLessons(lesson);
+		course.getLessons().remove(lesson);
+		this.courseRepository.save(course);
+	}
 }

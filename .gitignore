@@ -158,6 +158,7 @@ bh_unicode_properties.cache
 #ignora foto
 /SurfTraining/src/main/resources/static/images/course/*
 /SurfTraining/src/main/resources/static/images/instructor/*
+/SurfTraining/src/main/resources/static/images/lesson/*
 
 # Sublime-github package stores a github token in this file
 # https://packagecontrol.io/packages/sublime-github
