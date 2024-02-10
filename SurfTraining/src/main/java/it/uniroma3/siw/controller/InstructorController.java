@@ -76,16 +76,14 @@ public class InstructorController {
 
 	/*Se i dati inseriti sono corretti, viene aggiornato il profilo dell'atleta*/
 	@PostMapping("/update/{id}")
-	public String updateInstructor( @Valid @ModelAttribute("instructor") Instructor instructor, @RequestParam("file") MultipartFile file  ,BindingResult bindingResult, Model model) {
+	public String updateInstructor( @Valid @ModelAttribute("instructor") Instructor instructor,BindingResult bindingResult, @RequestParam("file") MultipartFile file  , Model model) {
 		System.out.println("Sono entrato nel post\n\n");
 		this.instructorValidator.validate( instructor, bindingResult);
-		
+
 		if (bindingResult.hasErrors()) {
-			System.out.println("Qua ci sono\n\n");
 			return INSTRUCTOR_DIR + "instructorEdit";
 		}
-		
-		System.out.println("Invece sto qua\n\n");
+
 		if(!file.isEmpty()) {
 			instructor.setPathImg(FileStorer.store(file,"instructor",instructor.getId()));
 		}
@@ -106,6 +104,5 @@ public class InstructorController {
 		this.instructorService.deleteById(id);
 		return "redirect:/instructor/all";
 	}
-
 
 }

@@ -1,7 +1,5 @@
 package it.uniroma3.siw.controller.validator;
 
-import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -23,11 +21,6 @@ public class InstructorValidator implements Validator {
 			if(!instrucotr.getId().equals( instructorRepository.findByNameAndSurname(instrucotr.getName(), instrucotr.getSurname()).getId())) {
 				errors.reject("instructor.duplicate");
 			}
-		}
-		if (instrucotr.getDateOfBirth().isAfter(LocalDate.now())) {
-			
-			System.out.println("la data è futura\n\n");
-			errors.rejectValue("dateOfBirth", "NotAfter");
 		}
 	}
 

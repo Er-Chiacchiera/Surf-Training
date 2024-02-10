@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 
 @Entity
 public class Instructor {
@@ -36,6 +37,7 @@ public class Instructor {
 	private String surname;
 
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@Past
 	private LocalDate dateOfBirth;
 
 	@NotBlank
