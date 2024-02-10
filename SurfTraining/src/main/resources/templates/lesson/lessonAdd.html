@@ -4,44 +4,52 @@
 <head th:replace="~{fragments/base :: head(title=Add+' '+lesson)}">Add lesson</head>
 
 <body>
+	<!-- Inclusione dell'intestazione dalla pagina di base -->
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 	<div class="d-flex container justify-content-center mt-4">
 		<div class="col-6 card border border-primary p-3 shadow">
-			<!--Form per aggiungere un nuovo Istruttore-->
-			<form th:action="@{'/lesson/add/' + ${idCourse}}" method="POST" th:object="${lesson}" class="row g-3" enctype="multipart/form-data">
+			<!-- Form per aggiungere una nuova lezione -->
+			<form th:action="@{'/lesson/add/' + ${idCourse}}" method="POST" th:object="${lesson}" class="row g-3"
+				enctype="multipart/form-data">
+				<!-- Mostra gli errori globali se presenti -->
 				<div th:if="${#fields.hasGlobalErrors()}">
 					<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 				</div>
 
 				<div class="col-md-6">
 					<label for="title" class="form-label">Titolo</label>
+					<!-- Campo di input per il titolo -->
 					<input class="form-control" required type="text" th:field="${lesson.title}" id="title" />
+					<!-- Mostra gli errori del campo "title" se presenti -->
 					<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 				</div>
 
 				<div class="col-12">
-					<label for="description" class="form-label"> Descizione</label>
+					<label for="description" class="form-label"> Descrizione</label>
+					<!-- Campo di input per la descrizione -->
 					<textarea class="form-control" aria-label="With textarea" type="text"
 						th:field="${lesson.description}" id="description"></textarea>
+					<!-- Mostra gli errori del campo "description" se presenti -->
 					<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
 				</div>
 
-				<!--Inserimento della foto-->
+				<!-- Inserimento della foto -->
 				<div class="mb-3">
 					<label class="form-label" for="file">Immagine di profilo</label>
+					<!-- Campo di input per l'immagine di profilo -->
 					<input type="file" class="form-control" id="inputImg" name="file" required>
 				</div>
 
 				<div class="col-12">
+					<!-- Pulsante di invio del modulo -->
 					<button type="submit" class="btn btn-primary">Add</button>
 				</div>
 			</form>
 		</div>
 	</div>
 
-
-
+	<!-- Inclusione del piè di pagina dalla pagina di base -->
 	<footer th:replace="~{fragments/base :: footer}">
 		<footer>
 </body>

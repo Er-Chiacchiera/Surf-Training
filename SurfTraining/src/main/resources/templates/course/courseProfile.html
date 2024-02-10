@@ -7,17 +7,21 @@
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
 
 	<div class="container text-center">
+		<!-- Sezione per il titolo e la descrizione del corso -->
 		<div class="row mb-2">
 			<div class="row">
+				<!-- Titolo del corso -->
 				<h2 class="row justify-content-center" th:text="${course.title}"></h2>
+				<!-- Descrizione del corso -->
 				<h4 class="row" th:text="${course.description}"></h4>
 			</div>
-			<!-- Sezione solo per admin dove si posso creare, eleminare il corso e aggiungere una nuova lezione -->
+			<!-- Sezione solo per admin dove si possono creare, eliminare il corso e aggiungere una nuova lezione -->
 			<div class="row" sec:authorize="hasAuthority('ADMIN')">
+				<!-- Modifica corso -->
 				<a type="button" class="btn btn-outline-primary me-2 col" th:href="@{'/course/edit/' + ${course.id}}">
 					Edit Course</a>
 
-				<!-- Button trigger modal attivato nel caso si voglia cancellare il corso-->
+				<!-- Modal per eliminare il corso -->
 				<a type="button" class="btn btn-outline-primary me-2 col " data-bs-toggle="modal"
 					data-bs-target="#exampleModal"> Delete course</a>
 				<!-- Modal -->
@@ -35,6 +39,7 @@
 							</div>
 							<div class="modal-footer">
 								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+								<!-- Elimina corso -->
 								<a type="button" class="btn btn-primary"
 									th:href="@{'/course/delete/' + ${course.id}}">Si</a>
 							</div>
@@ -42,12 +47,13 @@
 					</div>
 				</div>
 
+				<!-- Aggiungi lezione -->
 				<a type="button" class="btn btn-outline-primary me-2 col"
 					th:href="@{'/lesson/add/new/' + ${course.id}}"> Add lesson</a>
 			</div>
 		</div>
 
-		<!--************************** Sezione dedicata alle lezioni **************************-->
+		<!-- Sezione dedicata alle lezioni del corso -->
 		<div class="row mb-4">
 			<div class="row" th:if="${course.lessons.isEmpty()}">
 				Non ci sono lezioni nel corso
@@ -56,33 +62,34 @@
 			<div class="card mx-auto">
 				<ul class="list-group list-group-flush" th:each="lesson : ${course.lessons}">
 					<li class="list-group-item">
-						<!-- pulsante per il collapse down e mostrare la lezione-->
+						<!-- Bottone per il collapse down e mostrare la lezione -->
 						<p class=" d-grid gap-2">
 							<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
 								th:href="'#'+${lesson.id}" aria-expanded="false" aria-controls="collapseExample"
 								th:text="${lesson.title}">
 							</button>
 						</p>
-						<!-- Contenuto di ogni collapse-->
+						<!-- Contenuto del collapse -->
 						<div class="collapse card card-body" th:id="${lesson.id}">
 							<div class="row">
+								<!-- Descrizione della lezione -->
 								<span> <b th:text="'Descrizione: ' + ${lesson.description}"> </b> </span>
 								<span>
-									<!--Video-->
+									<!-- Video della lezione -->
 									<video width="320" height="240" controls>
 										<source th:src="@{'/images/lesson/' + ${lesson.pathVideo}}" type="video/mp4">
 										Your browser does not support the video tag.
-									  </video>
+									</video>
 								</span>
 							</div>
 
-
-							<!--sezione dedicata agli admin per cancellare o modificare una lezione-->
+							<!-- Sezione dedicata agli admin per cancellare o modificare una lezione -->
 							<div class="row" sec:authorize="hasAuthority('ADMIN')">
+								<!-- Modifica lezione -->
 								<a type="button" class="btn btn-outline-primary me-2 col"
 									th:href="@{'/lesson/edit/' + ${lesson.id}}"> Edit lesson</a>
 
-								<!-- Button trigger modal -->
+								<!-- Modal per eliminare la lezione -->
 								<a type="button" class="btn btn-outline-primary me-2 col " data-bs-toggle="modal"
 									th:href="'#exampleModal' + ${lesson.id}"> Delete lesson</a>
 								<!-- Modal -->
@@ -102,6 +109,7 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
 													data-bs-dismiss="modal">No</button>
+												<!-- Elimina lezione -->
 												<a type="button" class="btn btn-primary"
 													th:href="@{'/lesson/delete/' + ${course.id} +'/' + ${lesson.id}}">Si</a>
 											</div>
@@ -115,7 +123,7 @@
 			</div>
 
 		</div>
-		<!--Mostra l'instruttore proprietario del corso-->
+		<!-- Mostra l'instruttore proprietario del corso -->
 		<div class="row">
 			<a type="button" class="btn btn-outline-primary me-2 col"
 				th:href="@{'/instructor/' + ${course.instructor.id}}">

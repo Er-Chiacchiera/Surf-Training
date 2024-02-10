@@ -4,57 +4,72 @@
 <head th:replace="~{fragments/base :: head(title=Istruttore)}">Hompage</head>
 
 <body>
+	<!-- Inclusione della barra di navigazione dalla pagina di base -->
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
-
 
 	<div class="container">
 		<div class="row flex-md-row flex-sm-column">
-			<!--Card dell'instruttore-->
+			<!-- Card dell'istruttore -->
 			<div class="col-md-4 mb-3">
 				<div class="card" style="max-width: 18rem;">
-					<img th:if="${instructor.pathImg != null}" th:src="@{'/images/instructor/' + ${instructor.pathImg}}" class="card-img-top" alt="...">
-					<img th:unless="${instructor.pathImg != null}" src="/images/preset/instructor.jpg" class="card-img-top" alt="...">
+					<!-- Immagine dell'istruttore -->
+					<img th:if="${instructor.pathImg != null}" th:src="@{'/images/instructor/' + ${instructor.pathImg}}"
+						class="card-img-top" alt="...">
+					<img th:unless="${instructor.pathImg != null}" src="/images/preset/instructor.jpg"
+						class="card-img-top" alt="...">
 					<div class="card-body">
+						<!-- Nome e cognome dell'istruttore -->
 						<h5 class="card-title" th:text="${instructor.name} + ' ' + ${instructor.surname}">Nome e Cognome
 						</h5>
+						<!-- Specialità dell'istruttore -->
 						<h6 class="card-text" th:text=" 'Specialità: ' + ${instructor.speciality}">Specialità</h6>
+						<!-- Descrizione dell'istruttore -->
 						<p class="card-text" th:text="${instructor.descrizione}">Descrizione</p>
 					</div>
 					<ul class="list-group list-group-flush">
+						<!-- Data di nascita dell'istruttore -->
 						<li class="list-group-item" th:text="'Nato il: ' + ${instructor.dateOfBirth}">Data di nascita
 						</li>
+						<!-- Email dell'istruttore -->
 						<li class="list-group-item" th:text="'Email: ' + ${instructor.email}">Email</li>
-						<div th:if="${! instructor.instagramUrl.isEmpty()}">
+						<!-- Link al profilo Instagram dell'istruttore (se disponibile) -->
+						<div th:if="${!instructor.instagramUrl.isEmpty()}">
 							<li class="list-group-item"><a th:href="@{${instructor.instagramUrl}}"
-									class="card-link">profilo Instagram</a></li>
+									class="card-link">Profilo Instagram</a></li>
 						</div>
-						<!--solo per admin-->
+						
+						
+						<!-- Solo per gli amministratori -->
 						<div sec:authorize="hasAuthority('ADMIN')">
+							<!-- Modifica dell'istruttore -->
 							<li class="list-group-item"><a type="button" class="btn btn-primary card-link"
 									th:href="@{'/instructor/edit/' + ${instructor.id}}">Modifica istruttore</a></li>
-
+							<!-- Eliminazione dell'istruttore (modal) -->
 							<li class="list-group-item">
-								<!-- Button trigger modal -->
+								<!-- Bottone per aprire la modale -->
 								<a type="button" class="btn btn-primary" data-bs-toggle="modal"
-									data-bs-target="#exampleModal"> Elimina istruttore </a>
-								<!-- Modal -->
+									data-bs-target="#exampleModal">Elimina istruttore</a>
+								<!-- Modale per la conferma dell'eliminazione -->
 								<div class="modal fade" id="exampleModal" tabindex="-1"
 									aria-labelledby="exampleModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
+												<!-- Titolo della modale -->
 												<h1 class="modal-title fs-5" id="exampleModalLabel">Elimina istruttore
 												</h1>
+												<!-- Bottone per chiudere la modale -->
 												<button type="button" class="btn-close" data-bs-dismiss="modal"
 													aria-label="Close"></button>
 											</div>
 											<div class="modal-body"
-												th:text="'Sicuro di voler eliminare l\'istruttore ' +${instructor.name}">
-												...
-											</div>
+												th:text="'Sicuro di voler eliminare l\'istruttore ' + ${instructor.name}">
+												...</div>
 											<div class="modal-footer">
+												<!-- Bottone per annullare l'eliminazione -->
 												<button type="button" class="btn btn-secondary"
 													data-bs-dismiss="modal">No</button>
+												<!-- Bottone per confermare l'eliminazione -->
 												<a type="button" class="btn btn-primary"
 													th:href="@{'/instructor/delete/' + ${instructor.id}}">Si</a>
 											</div>
@@ -66,32 +81,40 @@
 					</ul>
 				</div>
 			</div>
-			<!--Lista dei corsi-->
-			<div class="col-8">
 
+
+			
+			<!-- Lista dei corsi dell'istruttore -->
+			<div class="col-8">
+				<!-- Pulsante per aggiungere un nuovo corso (solo per gli amministratori) -->
 				<div class="row justify-content-md-center" sec:authorize="hasAuthority('ADMIN')">
 					<div class="col-12 col-md-auto mb-2 mb-md-0">
 						<a type="button" class="btn btn-outline-primary"
-							th:href="@{'/course/add/new/' + ${instructor.id}}">Add new course</a>
+							th:href="@{'/course/add/new/' + ${instructor.id}}">Aggiungi nuovo corso</a>
 					</div>
 				</div>
-
+				<!-- Messaggio se non ci sono corsi associati all'istruttore -->
 				<div class="row" th:if="${instructor.courses.isEmpty()}">
 					Non ci sono corsi nel sistema
 				</div>
-
-				<!--Inizio delle card-->
+				<!-- Lista dei corsi -->
 				<div class="row text-center">
 					<h2>Corsi</h2>
-
 					<div class="col mb-4 d-flex justify-content-center" th:each="course : ${instructor.courses}">
+						<!-- Card per ogni corso -->
 						<div class="card" style="max-width: 18rem;">
+							<!-- Link al dettaglio del corso -->
 							<a class="text-reset text-decoration-none" th:href="@{'/course/' + ${course.id}}">
-								<img th:if="${course.pathImg != null}" th:src="@{'/images/course/' + ${course.pathImg}}" class="card-img-top" alt="...">
-								<img th:unless="${course.pathImg != null}" src="/images/preset/course.jpg" class="card-img-top" alt="...">
+								<!-- Immagine del corso -->
+								<img th:if="${course.pathImg != null}" th:src="@{'/images/course/' + ${course.pathImg}}"
+									class="card-img-top" alt="...">
+								<img th:unless="${course.pathImg != null}" src="/images/preset/course.jpg"
+									class="card-img-top" alt="...">
 								<div class="card-body">
-									<h5 class="card-title" th:text="${course.title} ">Card title</h5>
-									<p class="card-text" th:text=" 'Tipologia: ' + ${course.typology}">Typology</p>
+									<!-- Titolo del corso -->
+									<h5 class="card-title" th:text="${course.title}">Titolo</h5>
+									<!-- Tipologia del corso -->
+									<p class="card-text" th:text=" 'Tipologia: ' + ${course.typology}">Tipologia</p>
 								</div>
 							</a>
 						</div>
@@ -101,11 +124,9 @@
 		</div>
 	</div>
 
-
-
+	<!-- Inclusione del piè di pagina dalla pagina di base -->
 	<footer th:replace="~{fragments/base :: footer}">
 		<footer>
-
 </body>
 
 </html>

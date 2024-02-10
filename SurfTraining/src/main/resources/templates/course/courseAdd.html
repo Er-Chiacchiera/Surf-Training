@@ -6,37 +6,43 @@
 <body>
 	<nav th:replace="~{fragments/base :: navbar}"></nav>
 
+	<!-- Contenitore principale -->
 	<div class="d-flex container justify-content-center mt-4">
 		<div class="col-6 card border border-primary p-3 shadow">
-			<!--Form per aggiungere un nuovo Istruttore-->
+			<!-- Form per aggiungere un nuovo corso -->
 			<form th:action="@{'/course/add/' + ${idInstructor}}" method="POST" th:object="${course}" class="row g-3" enctype="multipart/form-data">
+				<!-- Gestione degli errori globali -->
 				<div th:if="${#fields.hasGlobalErrors()}">
 					<p th:each="err : ${#fields.globalErrors()}" th:text="${err}">...</p>
 				</div>
 
+				<!-- Campo di input per il titolo -->
 				<div class="col-md-6">
 					<label for="title" class="form-label">Title</label>
 					<input class="form-control" required type="text" th:field="${course.title}" id="title" />
 					<span th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
 				</div>
 
+				<!-- Campo di input per la tipologia -->
 				<div class="col-md-6">
 					<label for="typology" class="form-label">Typology</label>
 					<input class="form-control" required type="text" th:field="${course.typology}" id="typology" />
 					<span th:if="${#fields.hasErrors('typology')}" th:errors="*{typology}"></span>
 				</div>
 
+				<!-- Campo di input per la descrizione -->
 				<div class="col-12">
 					<label for="description" class="form-label"> Descizione</label>
 					<textarea class="form-control" aria-label="With textarea" type="text" th:field="${course.description}" id="description"></textarea>
 				</div>
 
-				<!--Inserimento della foto-->
+				<!-- Inserimento della foto -->
 				<div class="mb-3">
 					<label class="form-label" for="file">Immagine di profilo</label>
 					<input type="file" class="form-control" id="inputImg" name="file">
 				</div>
 
+				<!-- Pulsante per confermare l'aggiunta -->
 				<div class="col-12">
 					<button type="submit" class="btn btn-primary">Add</button>
 				</div>
@@ -44,8 +50,7 @@
 		</div>
 	</div>
 
-
-
+	<!-- Footer -->
 	<footer th:replace="~{fragments/base :: footer}">
 		<footer>
 </body>
