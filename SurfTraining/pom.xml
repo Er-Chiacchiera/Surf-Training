@@ -12,9 +12,9 @@
 	<artifactId>Surf</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Surf</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Surf project with spring boot</description>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -62,7 +62,7 @@
 	</dependencies>
 
 	<build>
-		<plugins>
+    	<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

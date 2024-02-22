@@ -56,6 +56,7 @@
 	<!-- Lista degli istruttori -->
 	<div class="container text-center">
 		<div class="row">
+			<div th:text="${instructors.size()}"> </div>
 			<div class="col mb-4 d-flex justify-content-center" th:each="instructor : ${instructors}">
 				<!-- Card per ogni istruttore -->
 				<div class="card" style="width: 18rem;">
